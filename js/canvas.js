@@ -27,9 +27,14 @@ class CanvasManager {
     }
 
     handleMouseDown(e) {
+        if (STATE.isPanning) return;
+        
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const coords = window.zoomManager ? 
+            window.zoomManager.screenToCanvas(e.clientX, e.clientY) :
+            { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        const x = coords.x;
+        const y = coords.y;
 
         if (STATE.isDrawingConnector) {
             this.startConnector(x, y);
@@ -54,9 +59,14 @@ class CanvasManager {
     }
 
     handleMouseMove(e) {
+        if (STATE.isPanning) return;
+        
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const coords = window.zoomManager ? 
+            window.zoomManager.screenToCanvas(e.clientX, e.clientY) :
+            { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        const x = coords.x;
+        const y = coords.y;
 
         if (STATE.isDrawingConnector && STATE.connectorStart) {
             STATE.tempConnector = {
@@ -65,34 +75,57 @@ class CanvasManager {
             };
             this.render();
         } else if (STATE.isDragging && STATE.selectedElement) {
+            const oldX = STATE.selectedElement.x;
+            const oldY = STATE.selectedElement.y;
+            
             STATE.selectedElement.x = x - STATE.dragStart.x;
             STATE.selectedElement.y = y - STATE.dragStart.y;
+            
+            // Only save to history when movement is significant
+            if (Math.abs(oldX - STATE.selectedElement.x) > 5 || 
+                Math.abs(oldY - STATE.selectedElement.y) > 5) {
+                if (!this.dragHistorySaved) {
+                    historyManager.saveState();
+                    this.dragHistorySaved = true;
+                }
+            }
+            
             this.render();
         }
     }
 
     handleMouseUp(e) {
+        if (STATE.isPanning) return;
+        
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const coords = window.zoomManager ? 
+            window.zoomManager.screenToCanvas(e.clientX, e.clientY) :
+            { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        const x = coords.x;
+        const y = coords.y;
 
         if (STATE.isDrawingConnector && STATE.connectorStart) {
             this.endConnector(x, y);
         }
 
         STATE.isDragging = false;
+        this.dragHistorySaved = false;
         this.canvas.style.cursor = STATE.isDrawingConnector ? 'crosshair' : 'default';
     }
 
     handleDoubleClick(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const coords = window.zoomManager ? 
+            window.zoomManager.screenToCanvas(e.clientX, e.clientY) :
+            { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        const x = coords.x;
+        const y = coords.y;
 
         const clickedElement = this.getElementAt(x, y);
         if (clickedElement && !(clickedElement instanceof Connector)) {
             const newText = prompt('Enter text:', clickedElement.text);
             if (newText !== null) {
+                historyManager.saveState();
                 clickedElement.text = newText;
                 this.render();
             }
@@ -121,6 +154,7 @@ class CanvasManager {
                 STATE.connectorType
             );
             STATE.elements.push(connector);
+            historyManager.saveState();
         }
 
         STATE.connectorStart = null;
@@ -166,12 +200,20 @@ class CanvasManager {
         
         const shape = new Shape(type, x - width/2, y - height/2, width, height);
         STATE.elements.push(shape);
+        historyManager.saveState();
         this.render();
     }
 
     render() {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Save context state
+        this.ctx.save();
+        
+        // Apply zoom and pan transformations
+        this.ctx.translate(STATE.panOffset.x, STATE.panOffset.y);
+        this.ctx.scale(STATE.zoom, STATE.zoom);
         
         // Draw elements
         STATE.elements.forEach(element => {
@@ -192,6 +234,9 @@ class CanvasManager {
         if (STATE.isDrawingConnector) {
             this.drawConnectionHandles();
         }
+        
+        // Restore context state
+        this.ctx.restore();
     }
 
     drawSelection(element) {
@@ -261,6 +306,7 @@ class CanvasManager {
                 STATE.elements.splice(index, 1);
                 STATE.selectedElement = null;
                 updateProperties(null);
+                historyManager.saveState();
                 this.render();
             }
         }
@@ -271,6 +317,8 @@ class CanvasManager {
             STATE.elements = [];
             STATE.selectedElement = null;
             updateProperties(null);
+            historyManager.clear();
+            historyManager.saveState();
             this.render();
         }
     }

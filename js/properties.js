@@ -68,6 +68,7 @@ function updateProperties(element) {
 function updateElementProperty(property, value) {
     if (STATE.selectedElement) {
         STATE.selectedElement[property] = value;
+        historyManager.saveState();
         window.canvasManager.render();
     }
 }
@@ -76,6 +77,7 @@ function updateConnectorType() {
     const select = document.getElementById('connectorType');
     if (STATE.selectedElement && STATE.selectedElement instanceof Connector) {
         STATE.selectedElement.type = select.value;
+        historyManager.saveState();
         window.canvasManager.render();
     }
 }

@@ -54,9 +54,10 @@ class DragDropManager {
         if (!shapeType) return;
         
         const rect = this.canvasManager.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const coords = window.zoomManager ? 
+            window.zoomManager.screenToCanvas(e.clientX, e.clientY) :
+            { x: e.clientX - rect.left, y: e.clientY - rect.top };
         
-        this.canvasManager.addShape(shapeType, x, y);
+        this.canvasManager.addShape(shapeType, coords.x, coords.y);
     }
 }

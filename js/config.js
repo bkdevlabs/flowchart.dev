@@ -16,7 +16,11 @@ const CONFIG = {
     },
     STROKE_WIDTH: 2,
     FONT_SIZE: 14,
-    FONT_FAMILY: 'Arial, sans-serif'
+    FONT_FAMILY: 'Arial, sans-serif',
+    MAX_HISTORY: 50,
+    ZOOM_MIN: 0.25,
+    ZOOM_MAX: 3,
+    ZOOM_STEP: 0.1
 };
 
 // Global state
@@ -28,5 +32,9 @@ const STATE = {
     tempConnector: null,
     isDragging: false,
     dragStart: { x: 0, y: 0 },
-    connectorType: 'arrow' // 'arrow' or 'line'
+    connectorType: 'arrow', // 'arrow' or 'line'
+    zoom: 1,
+    panOffset: { x: 0, y: 0 },
+    isPanning: false,
+    panStart: { x: 0, y: 0 }
 };
