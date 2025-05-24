@@ -1,0 +1,68 @@
+/* Toolbar Styles */
+.toolbar {
+    width: 200px;
+    background-color: #ecf0f1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    border-right: 1px solid #bdc3c7;
+}
+
+.symbol-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.symbol-item {
+    background-color: white;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    padding: 0.75rem;
+    cursor: move;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.symbol-item:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+    transform: translateY(-2px);
+}
+
+.symbol-item.dragging {
+    opacity: 0.5;
+}
+
+.symbol-item svg {
+    width: 60px;
+    height: 36px;
+}
+
+.symbol-item svg rect,
+.symbol-item svg path,
+.symbol-item svg circle,
+.symbol-item svg line {
+    fill: none;
+    stroke: #2c3e50;
+    stroke-width: 2;
+}
+
+.symbol-item svg circle {
+    fill: none;
+}
+
+.symbol-item span {
+    font-size: 0.75rem;
+    color: #7f8c8d;
+    text-align: center;
+}
+
+.connector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowChat - Flowchart Drawing Tool</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/toolbar.css">
+    <link rel="stylesheet" href="styles/canvas.css">
+    <link rel="stylesheet" href="styles/properties.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>FlowChat</h1>
+            <div class="header-actions">
+                <button id="exportBtn" class="btn btn-primary">Export as PNG</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear Canvas</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Toolbar -->
+            <aside class="toolbar">
+                <h3>Flowchart Symbols</h3>
+                <div class="symbol-list">
+                    <div class="symbol-item" draggable="true" data-shape="process">
+                        <svg viewBox="0 0 100 60">
+                            <rect x="5" y="5" width="90" height="50" />
+                        </svg>
+                        <span>Process</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="decision">
+                        <svg viewBox="0 0 100 60">
+                            <path d="M50 5 L95 30 L50 55 L5 30 Z" />
+                        </svg>
+                        <span>Decision</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="terminal">
+                        <svg viewBox="0 0 100 60">
+                            <path d="M30 5 L70 5 Q95 5 95 30 Q95 55 70 55 L30 55 Q5 55 5 30 Q5 5 30 5" />
+                        </svg>
+                        <span>Terminal</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="io">
+                        <svg viewBox="0 0 100 60">
+                            <path d="M20 5 L95 5 L80 55 L5 55 Z" />
+                        </svg>
+                        <span>Input/Output</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="document">
+                        <svg viewBox="0 0 100 60">
+                            <path d="M5 5 L95 5 L95 45 Q75 55 50 45 Q25 35 5 45 Z" />
+                        </svg>
+                        <span>Document</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="data">
+                        <svg viewBox="0 0 100 60">
+                            <path d="M25 5 L95 5 L75 55 L5 55 Z" />
+                        </svg>
+                        <span>Data</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="predefined">
+                        <svg viewBox="0 0 100 60">
+                            <rect x="5" y="5" width="90" height="50" />
+                            <line x1="15" y1="5" x2="15" y2="55" />
+                            <line x1="85" y1="5" x2="85" y2="55" />
+                        </svg>
+                        <span>Predefined Process</span>
+                    </div>
+                    <div class="symbol-item" draggable="true" data-shape="connector">
+                        <svg viewBox="0 0 60 60">
+                            <circle cx="30" cy="30" r="25" />
+                        </svg>
+                        <span>Connector</span>
+                    </div>
+                </div>
+                <h3>Connectors</h3>
+                <div class="connector-list">
+                    <button id="lineBtn" class="btn btn-tool">Draw Line</button>
+                    <button id="arrowBtn" class="btn btn-tool active">Draw Arrow</button>
+                </div>
+            </aside>
+
+            <!-- Canvas Area -->
+            <div class="canvas-container">
+                <canvas id="flowchartCanvas"></canvas>
+            </div>
+
+            <!-- Properties Panel -->
+            <aside class="properties-panel">
+                <h3>Properties</h3>
+                <div id="propertiesContent">
+                    <p class="empty-state">Select an element to edit its properties</p>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/shapes.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/connectors.js"></script>
+    <script src="js/properties.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

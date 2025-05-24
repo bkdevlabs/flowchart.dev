@@ -1,0 +1,37 @@
+/* Canvas Styles */
+.canvas-container {
+    flex: 1;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+#flowchartCanvas {
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+#flowchartCanvas.drawing-connector {
+    cursor: crosshair;
+}
+
+#flowchartCanvas.moving {
+    cursor: move;
+}
+
+/* Grid background */
+.canvas-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
+}
