@@ -112,14 +112,14 @@ class EmbedManager {
         const filename = `flowchart_${timestamp}.png`;
         
         // HTML code
-        const htmlCode = `<img src="${base64}" alt="Flowchart created with FlowChat" width="${tempCanvas.width}" height="${tempCanvas.height}">`;
+        const htmlCode = `<img src="${base64}" alt="Flowchart created with flowchart.dev" width="${tempCanvas.width}" height="${tempCanvas.height}">`;
         document.getElementById('htmlCode').textContent = htmlCode;
         
         // Base64 code
         document.getElementById('base64Code').textContent = base64;
         
         // Markdown code
-        const markdownCode = `![Flowchart created with FlowChat](${base64})`;
+        const markdownCode = `![Flowchart created with flowchart.dev](${base64})`;
         document.getElementById('markdownCode').textContent = markdownCode;
         
         // Show modal
