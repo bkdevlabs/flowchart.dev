@@ -1,0 +1,260 @@
+/* Mobile Styles */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.mobile-actions {
+    display: none;
+    background-color: #34495e;
+    padding: 1rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #2c3e50;
+}
+
+.mobile-actions.show {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
+
+.close-panel-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7f8c8d;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.toolbar-header, .properties-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.help-text {
+    font-size: 0.75rem;
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.touch-indicator {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #3498db;
+    border-radius: 50%;
+    pointer-events: none;
+    display: none;
+    transform: translate(-50%, -50%);
+    animation: touchPulse 0.5s ease-out;
+}
+
+@keyframes touchPulse {
+    from {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Tablet and Mobile Responsive */
+@media (max-width: 1024px) {
+    .app-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .app-title {
+        font-size: 1.25rem;
+    }
+    
+    .header-actions {
+        gap: 1rem;
+    }
+    
+    .zoom-controls {
+        padding: 0.125rem;
+    }
+    
+    .btn-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block;
+    }
+    
+    .app-header {
+        padding: 0.5rem;
+    }
+    
+    .app-title {
+        font-size: 1rem;
+    }
+    
+    .header-actions {
+        gap: 0.5rem;
+    }
+    
+    .action-group {
+        gap: 0.25rem;
+    }
+    
+    .zoom-controls {
+        background-color: transparent;
+        padding: 0;
+    }
+    
+    .zoom-level {
+        min-width: 40px;
+        font-size: 0.75rem;
+    }
+    
+    .btn-icon {
+        width: 28px;
+        height: 28px;
+        padding: 0.25rem;
+    }
+    
+    .btn-sm {
+        padding: 0.125rem 0.5rem;
+        font-size: 0.7rem;
+    }
+    
+    /* Mobile Layout */
+    .app-main {
+        position: relative;
+        flex-direction: column;
+    }
+    
+    .toolbar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 280px;
+        max-width: 80vw;
+        height: 100%;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .toolbar.show {
+        transform: translateX(0);
+    }
+    
+    .properties-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 280px;
+        max-width: 80vw;
+        height: 100%;
+        z-index: 100;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .properties-panel.show {
+        transform: translateX(0);
+    }
+    
+    .canvas-container {
+        width: 100%;
+        height: 100%;
+    }
+    
+    /* Touch-friendly symbol items */
+    .symbol-item {
+        padding: 1rem;
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    .symbol-item.touch-dragging {
+        position: fixed;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+    
+    /* Mobile modals */
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 95%;
+        max-height: 90vh;
+    }
+    
+    .code-block {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .toolbar, .properties-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .embed-preview img {
+        max-height: 200px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .symbol-item {
+        min-height: 80px;
+    }
+    
+    .property-group input,
+    .property-group select {
+        min-height: 44px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}

@@ -36,6 +36,16 @@ class CanvasManager {
         const x = coords.x;
         const y = coords.y;
 
+        // Handle path connector mode
+        if (STATE.connectorMode === 'path') {
+            if (!pathConnector.isDrawing) {
+                pathConnector.startPath(x, y);
+            } else {
+                pathConnector.addPathPoint(x, y);
+            }
+            return;
+        }
+
         if (STATE.isDrawingConnector) {
             this.startConnector(x, y);
             return;
@@ -45,6 +55,17 @@ class CanvasManager {
         const clickedElement = this.getElementAt(x, y);
         
         if (clickedElement) {
+            // Check if clicking on a connector control point
+            if (clickedElement instanceof Connector && STATE.selectedElement === clickedElement) {
+                const pointIndex = clickedElement.getControlPointAt(x, y);
+                if (pointIndex !== -1) {
+                    clickedElement.selectedPointIndex = pointIndex;
+                    STATE.isDragging = true;
+                    STATE.draggingControlPoint = true;
+                    return;
+                }
+            }
+            
             STATE.selectedElement = clickedElement;
             STATE.isDragging = true;
             STATE.dragStart = { x: x - clickedElement.x, y: y - clickedElement.y };
@@ -68,6 +89,15 @@ class CanvasManager {
         const x = coords.x;
         const y = coords.y;
 
+        if (STATE.connectorMode === 'path' && pathConnector.isDrawing) {
+            // Update temporary path preview
+            const tempPath = [...pathConnector.currentPath, { x, y }];
+            STATE.tempPath = tempPath;
+            this.render();
+            pathConnector.drawTempPath();
+            return;
+        }
+
         if (STATE.isDrawingConnector && STATE.connectorStart) {
             STATE.tempConnector = {
                 start: STATE.connectorStart,
@@ -75,22 +105,29 @@ class CanvasManager {
             };
             this.render();
         } else if (STATE.isDragging && STATE.selectedElement) {
-            const oldX = STATE.selectedElement.x;
-            const oldY = STATE.selectedElement.y;
-            
-            STATE.selectedElement.x = x - STATE.dragStart.x;
-            STATE.selectedElement.y = y - STATE.dragStart.y;
-            
-            // Only save to history when movement is significant
-            if (Math.abs(oldX - STATE.selectedElement.x) > 5 || 
-                Math.abs(oldY - STATE.selectedElement.y) > 5) {
-                if (!this.dragHistorySaved) {
-                    historyManager.saveState();
-                    this.dragHistorySaved = true;
+            if (STATE.draggingControlPoint && STATE.selectedElement instanceof Connector) {
+                // Move control point
+                STATE.selectedElement.movePoint(STATE.selectedElement.selectedPointIndex, x, y);
+                this.render();
+            } else if (!(STATE.selectedElement instanceof Connector)) {
+                // Move shape
+                const oldX = STATE.selectedElement.x;
+                const oldY = STATE.selectedElement.y;
+                
+                STATE.selectedElement.x = x - STATE.dragStart.x;
+                STATE.selectedElement.y = y - STATE.dragStart.y;
+                
+                // Only save to history when movement is significant
+                if (Math.abs(oldX - STATE.selectedElement.x) > 5 || 
+                    Math.abs(oldY - STATE.selectedElement.y) > 5) {
+                    if (!this.dragHistorySaved) {
+                        historyManager.saveState();
+                        this.dragHistorySaved = true;
+                    }
                 }
+                
+                this.render();
             }
-            
-            this.render();
         }
     }
 
@@ -108,6 +145,12 @@ class CanvasManager {
             this.endConnector(x, y);
         }
 
+        if (STATE.draggingControlPoint) {
+            historyManager.saveState();
+            STATE.selectedElement.selectedPointIndex = -1;
+            STATE.draggingControlPoint = false;
+        }
+
         STATE.isDragging = false;
         this.dragHistorySaved = false;
         this.canvas.style.cursor = STATE.isDrawingConnector ? 'crosshair' : 'default';
@@ -120,6 +163,12 @@ class CanvasManager {
             { x: e.clientX - rect.left, y: e.clientY - rect.top };
         const x = coords.x;
         const y = coords.y;
+
+        // Finish path connector
+        if (STATE.connectorMode === 'path' && pathConnector.isDrawing) {
+            pathConnector.finishPath(x, y);
+            return;
+        }
 
         const clickedElement = this.getElementAt(x, y);
         if (clickedElement && !(clickedElement instanceof Connector)) {

@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize zoom manager
     window.zoomManager = new ZoomManager(window.canvasManager);
     
+    // Initialize touch support
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        window.touchManager = new TouchManager(window.canvasManager);
+    }
+    
+    // Initialize mobile UI
+    mobileUIManager = new MobileUIManager();
+    
     // Initialize drag and drop
     const dragDropManager = new DragDropManager(window.canvasManager);
     
@@ -59,6 +67,10 @@ function setupEventListeners(exportManager) {
         toggleConnectorMode('arrow');
     });
     
+    document.getElementById('pathBtn').addEventListener('click', () => {
+        toggleConnectorMode('path');
+    });
+    
     // Click outside to deselect
     document.addEventListener('click', (e) => {
         if (e.target.id === 'flowchartCanvas') {
@@ -94,7 +106,7 @@ function setupKeyboardShortcuts() {
         if (e.key === 'Escape') {
             if (document.querySelector('.modal.show')) {
                 embedManager.closeModal();
-            } else if (STATE.isDrawingConnector) {
+            } else if (STATE.isDrawingConnector || STATE.connectorMode === 'path') {
                 disableConnectorMode();
                 window.canvasManager.render();
             }

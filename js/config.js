@@ -33,8 +33,11 @@ const STATE = {
     isDragging: false,
     dragStart: { x: 0, y: 0 },
     connectorType: 'arrow', // 'arrow' or 'line'
+    connectorMode: null, // 'direct' or 'path'
     zoom: 1,
     panOffset: { x: 0, y: 0 },
     isPanning: false,
-    panStart: { x: 0, y: 0 }
+    panStart: { x: 0, y: 0 },
+    draggingControlPoint: false,
+    tempPath: null
 };
