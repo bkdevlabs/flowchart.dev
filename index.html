@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flowchart.dev - Flowchart Drawing Tool</title>
+   <title>Flowchart.dev - Flowchart Drawing Tool</title>
 
-    
     <!-- Google Search Meta Tags -->
     <meta name="description" content="Flowchart.dev is a modern flowchart drawing tool. Create, edit, and export flowcharts easily online.">
     <meta name="keywords" content="flowchart, diagram, drawing tool, online, process, chart, export, svg, png">
@@ -34,7 +33,7 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <h1>FlowChat</h1>
+            <h1 class="app-title">flowchart.dev</h1>
             <button id="mobileMenuBtn" class="mobile-menu-btn">
                 <svg viewBox="0 0 24 24" width="24" height="24">
                     <path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -72,7 +71,7 @@
             <button id="mobileExportBtn" class="btn btn-primary">Export as PNG</button>
             <button id="mobileEmbedBtn" class="btn btn-primary">Embed Code</button>
             <button id="mobileClearBtn" class="btn btn-secondary">Clear Canvas</button>
-            <button id="mobileToggleToolbar" class="btn btn-secondary">Toggle Toolbar</button>
+            <button id="mobileToggleToolbar" class="btn btn-secondary">Toggle Symbols</button>
             <button id="mobileToggleProperties" class="btn btn-secondary">Toggle Properties</button>
         </div>
 
@@ -80,120 +79,48 @@
         <main class="app-main">
             <!-- Toolbar -->
             <aside id="toolbar" class="toolbar">
-                <h3>Flowchart Symbols</h3>
+                <div class="toolbar-header">
+                    <h3>Flowchart Symbols</h3>
+                    <button id="closeToolbar" class="close-panel-btn mobile-only">×</button>
+                </div>
                 <div class="symbol-list">
-                    <div class="symbol-item" draggable="true" data-shape="process">
+                    <div class="symbol-item" draggable="true" data-shape="process" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <rect x="5" y="5" width="90" height="50" />
                         </svg>
                         <span>Process</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="decision">
+                    <div class="symbol-item" draggable="true" data-shape="decision" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <path d="M50 5 L95 30 L50 55 L5 30 Z" />
                         </svg>
                         <span>Decision</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="terminal">
+                    <div class="symbol-item" draggable="true" data-shape="terminal" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <path d="M30 5 L70 5 Q95 5 95 30 Q95 55 70 55 L30 55 Q5 55 5 30 Q5 5 30 5" />
                         </svg>
                         <span>Terminal</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="io">
+                    <div class="symbol-item" draggable="true" data-shape="io" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <path d="M20 5 L95 5 L80 55 L5 55 Z" />
                         </svg>
                         <span>Input/Output</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="document">
-                        <svg viewBox="0 0 100 60">
-                            <path d="M5 5 L95 5 L95 45 Q75 55 50 45 Q25 35<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowChat - Flowchart Drawing Tool</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/toolbar.css">
-    <link rel="stylesheet" href="styles/canvas.css">
-    <link rel="stylesheet" href="styles/properties.css">
-</head>
-<body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="app-header">
-            <h1>FlowChat</h1>
-            <div class="header-actions">
-                <div class="action-group">
-                    <button id="undoBtn" class="btn btn-icon" title="Undo (Ctrl+Z)">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
-                        </svg>
-                    </button>
-                    <button id="redoBtn" class="btn btn-icon" title="Redo (Ctrl+Y)">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="zoom-controls">
-                    <button id="zoomOutBtn" class="btn btn-icon" title="Zoom Out">−</button>
-                    <span id="zoomLevel" class="zoom-level">100%</span>
-                    <button id="zoomInBtn" class="btn btn-icon" title="Zoom In">+</button>
-                    <button id="zoomResetBtn" class="btn btn-secondary btn-sm">Reset</button>
-                </div>
-                <div class="action-group">
-                    <button id="exportBtn" class="btn btn-primary">Export as PNG</button>
-                    <button id="embedBtn" class="btn btn-primary">Embed Code</button>
-                    <button id="clearBtn" class="btn btn-secondary">Clear Canvas</button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- Toolbar -->
-            <aside class="toolbar">
-                <h3>Flowchart Symbols</h3>
-                <div class="symbol-list">
-                    <div class="symbol-item" draggable="true" data-shape="process">
-                        <svg viewBox="0 0 100 60">
-                            <rect x="5" y="5" width="90" height="50" />
-                        </svg>
-                        <span>Process</span>
-                    </div>
-                    <div class="symbol-item" draggable="true" data-shape="decision">
-                        <svg viewBox="0 0 100 60">
-                            <path d="M50 5 L95 30 L50 55 L5 30 Z" />
-                        </svg>
-                        <span>Decision</span>
-                    </div>
-                    <div class="symbol-item" draggable="true" data-shape="terminal">
-                        <svg viewBox="0 0 100 60">
-                            <path d="M30 5 L70 5 Q95 5 95 30 Q95 55 70 55 L30 55 Q5 55 5 30 Q5 5 30 5" />
-                        </svg>
-                        <span>Terminal</span>
-                    </div>
-                    <div class="symbol-item" draggable="true" data-shape="io">
-                        <svg viewBox="0 0 100 60">
-                            <path d="M20 5 L95 5 L80 55 L5 55 Z" />
-                        </svg>
-                        <span>Input/Output</span>
-                    </div>
-                    <div class="symbol-item" draggable="true" data-shape="document">
+                    <div class="symbol-item" draggable="true" data-shape="document" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <path d="M5 5 L95 5 L95 45 Q75 55 50 45 Q25 35 5 45 Z" />
                         </svg>
                         <span>Document</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="data">
+                    <div class="symbol-item" draggable="true" data-shape="data" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <path d="M25 5 L95 5 L75 55 L5 55 Z" />
                         </svg>
                         <span>Data</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="predefined">
+                    <div class="symbol-item" draggable="true" data-shape="predefined" data-touch="true">
                         <svg viewBox="0 0 100 60">
                             <rect x="5" y="5" width="90" height="50" />
                             <line x1="15" y1="5" x2="15" y2="55" />
@@ -201,7 +128,7 @@
                         </svg>
                         <span>Predefined Process</span>
                     </div>
-                    <div class="symbol-item" draggable="true" data-shape="connector">
+                    <div class="symbol-item" draggable="true" data-shape="connector" data-touch="true">
                         <svg viewBox="0 0 60 60">
                             <circle cx="30" cy="30" r="25" />
                         </svg>
@@ -212,17 +139,23 @@
                 <div class="connector-list">
                     <button id="lineBtn" class="btn btn-tool">Draw Line</button>
                     <button id="arrowBtn" class="btn btn-tool active">Draw Arrow</button>
+                    <button id="pathBtn" class="btn btn-tool">Draw Path</button>
                 </div>
+                <p class="help-text">For paths: Click to add points, double-click to finish</p>
             </aside>
 
             <!-- Canvas Area -->
             <div class="canvas-container">
                 <canvas id="flowchartCanvas"></canvas>
+                <div id="touchIndicator" class="touch-indicator"></div>
             </div>
 
             <!-- Properties Panel -->
-            <aside class="properties-panel">
-                <h3>Properties</h3>
+            <aside id="propertiesPanel" class="properties-panel">
+                <div class="properties-header">
+                    <h3>Properties</h3>
+                    <button id="closeProperties" class="close-panel-btn mobile-only">×</button>
+                </div>
                 <div id="propertiesContent">
                     <p class="empty-state">Select an element to edit its properties</p>
                 </div>
@@ -241,6 +174,8 @@
     <script src="js/history.js"></script>
     <script src="js/zoom.js"></script>
     <script src="js/embed.js"></script>
+    <script src="js/touch.js"></script>
+    <script src="js/mobile.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
